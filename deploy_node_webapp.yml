@@ -4,7 +4,7 @@
   become: yes
   become_user: ubuntu
   vars:
-    ansible_python_interpreter: "/usr/bin/env python3"
+    ansible_python_interpreter: "/usr/bin/python3"
   tasks:
     # Create Kubernetes replica set
     - name: Create replicaset object
@@ -28,11 +28,11 @@
               spec:
                 containers:
                 - name: springapp
-                  image: 403959134869.dkr.ecr.ap-south-1.amazonaws.com/nodeapp
+                  image: public.ecr.aws/x3q9d9o9/nodeapp:latest
                   ports:
                   - containerPort: 8080
                 imagePullSecrets:
-                - name: ap-south-1-ecr-registry
+                - name: us-east-1-ecr-registry
 
     - name: Create a Service to access spring app
       k8s:
