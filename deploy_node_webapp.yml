@@ -1,5 +1,5 @@
 ---
-- hosts: server
+- hosts: localhost
   gather_facts: false
   become: yes
   become_user: ubuntu
@@ -7,6 +7,13 @@
     ansible_python_interpreter: "/usr/bin/python3"
   tasks:
     # Create Kubernetes replica set
+    - name: create namespace
+      k8s:
+       name: test1
+       api_version: v1
+       kind: Namespace
+       state: present
+
     - name: Create replicaset object
       k8s:
         state: present
@@ -28,7 +35,7 @@
               spec:
                 containers:
                 - name: springapp
-                  image: public.ecr.aws/x3q9d9o9/nodeapp:latest
+                  image: 279214042703.dkr.ecr.us-east-1.amazonaws.com/nodeapp:latest
                   ports:
                   - containerPort: 8080
                 imagePullSecrets:
